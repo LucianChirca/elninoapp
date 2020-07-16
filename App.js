@@ -32,13 +32,13 @@ export default function App() {
 
 
    const weekday = new Array(7)
-   weekday[0]="Monday";
-   weekday[1]="Tuesday";
-   weekday[2]="Wednesday";
-   weekday[3]="Thursday";
-   weekday[4]="Friday";
-   weekday[5]="Saturday";
-   weekday[6]="Sunday";
+   weekday[1]="Monday";
+   weekday[2]="Tuesday";
+   weekday[3]="Wednesday";
+   weekday[4]="Thursday";
+   weekday[5]="Friday";
+   weekday[6]="Saturday";
+   weekday[0]="Sunday";
 
    const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit'})
    const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(currentDay)
@@ -58,6 +58,13 @@ export default function App() {
             }
             else return object;
           }))
+
+   }
+
+   function addTodoItem(item){
+     let newItems =[...todoItems]
+     newItems.push(item)
+     updateItems(newItems)
 
    }
 
@@ -304,7 +311,13 @@ function getRightButtons(id){
         <Block class="header" style={styles.header}>
           <Block class="currentDay" row space="between">
 
+          <Block row>
             <Block row >
+            <Block style={{justifyContent:'center', marginRight:10}}>
+            <TouchableOpacity onPress={()=> setCurrentDay(new Date(currentDay.getTime() - oneDay))}>
+              <Icon name="angle-left" family="font-awesome" size={28}/>
+            </TouchableOpacity>
+            </Block>
               <Text style={{fontSize:50, color:theme.COLORS.TEXT_COLOR}}>
               {da}
               </Text>
@@ -318,12 +331,14 @@ function getRightButtons(id){
               </Block>
 
             </Block>
-            <Block style={{justifyContent:'center'}}>
+            <Block style={{justifyContent:'center', marginLeft:10}}>
+              <TouchableOpacity onPress={()=> setCurrentDay(new Date(currentDay.getTime() + oneDay))}>
               <Icon name="angle-right" family="font-awesome" size={28}/>
+              </TouchableOpacity>
             </Block>
-
+            </Block>
             <Block right style={{justifyContent:'center'}}>
-            <Text style={{fontSize:15, color:theme.COLORS.TEXT_COLOR}}>{weekday[dayOfWeek - 1].toUpperCase()}</Text>
+            <Text style={{fontSize:15, color:theme.COLORS.TEXT_COLOR}}>{weekday[dayOfWeek].toUpperCase()}</Text>
             </Block>
 
 
@@ -353,7 +368,7 @@ function getRightButtons(id){
           }).map((todo) => {
            return (
              <Swipeable key={todo.id} rightButtons={getRightButtons(todo.id)}>
-             <Block class="todoItem"  style={styles.todoItem} row space="between">
+             <Block class="todoItem"  style={[styles.todoItem]} row space="between">
               <Block class="todoItemText" style={styles.todoItemtext} left>
                 <Block row>
                 {
@@ -362,7 +377,7 @@ function getRightButtons(id){
                     <Icon size={18} name="exclamation" family="font-awesome-5" color={todo.done ? 'gray' :theme.COLORS.EXCLAMATION_ARRAY[todo.priority]}/>
                   </Block>
                 }
-                <Block style={{width:180}}>
+                <Block style={{width:180}} row>
                   <TextInput
                   value={todo.title}
                   onChangeText={(text)=>editTitle(todo.id, text)}
@@ -371,8 +386,24 @@ function getRightButtons(id){
                     textDecorationLine: todo.done ? 'line-through': 'none',
                     fontSize: 18,
                     paddingTop: 10,
-                    paddingBottom:5,
+                    paddingBottom:5
                   }} />
+                  {
+                    !todo.done &&
+                  <Block style={{
+                    justifyContent:'center',
+                    top:3,
+                    left: 10
+                  }}>
+                  <Block style={{
+                    height:20,
+                    borderRadius:5,
+                    backgroundColor: todo.color,
+                  }}>
+                  <Text style={{fontSize:10, fontWeight:'bold', padding:3}}>{todo.category}</Text>
+                  </Block>
+                  </Block>
+                }
                 </Block>
                 </Block>
                   <Text
@@ -381,7 +412,7 @@ function getRightButtons(id){
                     paddingBottom: 7
                   }}
                   >
-                  {"Due " + getDateFromTimestamp(todo.dueDate)}
+                  {todo.notes}
                   </Text>
                 </Block>
               <Block right style={{justifyContent:'center'}}>
