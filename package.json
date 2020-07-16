@@ -1,0 +1,35 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject"
+  },
+  "assets": [
+    "./assets/fonts/"
+  ],
+  "dependencies": {
+    "@react-native-community/datetimepicker": "^2.6.0",
+    "axios": "^0.19.2",
+    "expo": "~38.0.8",
+    "expo-status-bar": "^1.0.2",
+    "galio-framework": "^0.7.1",
+    "react": "~16.11.0",
+    "react-dom": "~16.11.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
+    "react-native-actionsheet": "^2.4.2",
+    "react-native-modal-datetime-picker": "^8.7.1",
+    "react-native-paper": "^4.0.0",
+    "react-native-search-box": "0.0.19",
+    "react-native-swipeable-row": "^0.8.1",
+    "react-native-textinput-effects": "^0.6.1",
+    "react-native-web": "~0.11.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "babel-preset-expo": "~8.1.0"
+  },
+  "private": true
+}
